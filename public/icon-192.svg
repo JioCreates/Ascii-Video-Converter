@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <rect width="192" height="192" fill="#0a0a0a"/>
+  <rect x="15" y="15" width="162" height="162" fill="none" stroke="#33ff33" stroke-width="6"/>
+  <text x="96" y="80" text-anchor="middle" fill="#33ff33" font-family="monospace" font-weight="bold" font-size="38">ASC</text>
+  <text x="96" y="125" text-anchor="middle" fill="#33ff33" font-family="monospace" font-weight="bold" font-size="38">II</text>
+</svg>

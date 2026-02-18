@@ -1,0 +1,139 @@
+/* CRT mode — intensified phosphor effects on top of the base look */
+
+/* Stronger screen curvature */
+.terminal.crt .terminal-screen {
+  border-radius: 16px;
+}
+
+/* Replace the subtle always-on scanlines with heavier ones */
+.terminal.crt .terminal-screen::before {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.3) 2px,
+    rgba(0, 0, 0, 0.3) 4px
+  );
+  border-radius: 14px;
+}
+
+/* Stronger vignette */
+.terminal.crt .terminal-screen::after {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 45%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  border-radius: 14px;
+}
+
+/* CRT-only overlays (scanline shift + scan beam) */
+.terminal.crt .crt-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* Horizontal scan beam */
+.terminal.crt .crt-overlay::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(var(--glow-rgb), 0.08),
+    transparent
+  );
+  animation: scan-beam 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scan-beam {
+  0% { top: -8px; }
+  100% { top: 100%; }
+}
+
+/* Extra vignette layer */
+.terminal.crt .crt-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 21;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+}
+
+/* Stronger phosphor glow */
+.terminal.crt .terminal-body {
+  text-shadow: 0 0 8px rgba(var(--glow-rgb), 0.6);
+}
+
+.terminal.crt .ascii-canvas-container canvas {
+  filter: brightness(1.2) contrast(1.2) saturate(1.3);
+}
+
+/* Barrel distortion illusion */
+.terminal.crt .terminal-screen {
+  transform: perspective(800px) rotateX(0.3deg);
+  transform-origin: center center;
+}
+
+/* Flicker */
+.terminal.crt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 22;
+  animation: crt-flicker 0.1s infinite alternate;
+  opacity: 0;
+  background: rgba(var(--glow-rgb), 0.02);
+  border-radius: 12px;
+}
+
+@keyframes crt-flicker {
+  0% { opacity: 0; }
+  30% { opacity: 0.02; }
+  70% { opacity: 0.04; }
+  100% { opacity: 0; }
+}
+
+/* Phosphor glow bleeding from the screen onto the bezel */
+.terminal.crt .terminal-bezel {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+    0 0 50px rgba(var(--glow-rgb), 0.1),
+    0 0 120px rgba(var(--glow-rgb), 0.05),
+    0 8px 40px rgba(0, 0, 0, 0.9);
+}
+
+/* Stronger green-tint on screen background */
+.terminal.crt .terminal-screen {
+  background: var(--screen-bg-crt);
+  box-shadow:
+    inset 0 0 80px rgba(0, 0, 0, 0.5),
+    inset 0 0 10px rgba(0, 0, 0, 0.4),
+    0 0 25px rgba(var(--glow-rgb), 0.08);
+}
+
+/* Green tint overlay on canvas */
+.terminal.crt .ascii-canvas-container {
+  position: relative;
+}
+
+.terminal.crt .ascii-canvas-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(var(--glow-rgb), 0.04);
+  mix-blend-mode: screen;
+}
